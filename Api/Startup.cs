@@ -31,7 +31,8 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             //DI
             services.AddScoped<ICustomerService, CustomerService>();
@@ -55,7 +56,28 @@ namespace Api
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            //net core 2.1 configuration
+            //app.UseMvc();
+
+            //net core 3.1 configuration, following this article
+            //https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-core-3-0-preview-4/
+            //Update: this article did not work, so adding a new api project with core 3.1.x, 
+            //and follow their module solved the problem. I left the commented code to show my trials.
+            app.UseRouting();
+            //app.UseCookiePolicy();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            //Probably we don need this configuration
+            //app.UseEndpoints(routes =>
+            //{
+            //    routes.MapRazorPages();
+            //    routes.MapFallbackToPage("_Host");
+            //});
         }
     }
 }
