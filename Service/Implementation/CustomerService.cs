@@ -17,14 +17,22 @@ namespace Service.Implementation
         }
 
         public Customer Create(Customer customer)
-        {            
+        {
             //return customer;
+            customer.Email = customer.Email.Trim();
+            customer.Name = customer.Name.Trim();
+            customer.Password = customer.Password.Trim();
             return _customerDAL.Create(customer);
         }
 
         public Customer Read(int ID)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Customer> Read()
+        {
+            return _customerDAL.Read();
         }
     }
 }

@@ -5,43 +5,47 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Common.DTO;
-using Service.Contract;
-using System.Net;
+using Angular.Contracts;
 
-namespace Api.Controllers
+namespace Angular.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        private readonly ICustomerServiceWrapper customerServiceWrapper;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerServiceWrapper CustomerServiceWrapper)
         {
-            _customerService = customerService;
+            customerServiceWrapper = CustomerServiceWrapper;
         }
         // GET: api/Customer
         [HttpGet]
         public IEnumerable<Customer> Get()
         {
-            return _customerService.Read();
+            try
+            {
+                return customerServiceWrapper.Get();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
 
         // GET: api/Customer/5
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return $"you requested id = {id}";
+            return "value";
         }
 
         // POST: api/Customer
         [HttpPost]
-        [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.NotFound)]
-        public Customer Post([FromBody] Customer request)
-        {            
-            return _customerService.Create(request);
+        public Customer Post([FromBody] Customer value)
+        {
+            var customer = customerServiceWrapper.Post(value);            
+            return customer;
         }
 
         // PUT: api/Customer/5

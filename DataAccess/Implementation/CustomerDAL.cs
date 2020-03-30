@@ -4,6 +4,7 @@ using System.Text;
 using Common.DTO;
 using DataAccess.Contract;
 using DataAccess.Extensions;
+using System.Linq;
 
 namespace DataAccess.Implementation
 {
@@ -26,6 +27,21 @@ namespace DataAccess.Implementation
         public Customer Read(int ID)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Customer> Read()
+        {
+            var data = new List<Customer>();
+            try
+            {
+                data = _context.Customers.ToList();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+
+            return data;
         }
     }
 }

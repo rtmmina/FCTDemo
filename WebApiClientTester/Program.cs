@@ -48,6 +48,7 @@ namespace WebApiClientTester
                     }
                 }
             }
+            
             catch(Exception ex)
             {
                 var d = "wait";
