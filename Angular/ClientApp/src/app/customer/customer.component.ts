@@ -13,9 +13,6 @@ export class CustomerComponent implements OnInit {
   customers: Array<Customer>;
 
   ngOnInit() {
-    //this.customerService.get().subscribe(res => {
-    //  this.customers = res;
-    //});
   }
 
 
@@ -32,6 +29,7 @@ export class CustomerComponent implements OnInit {
     let formData = this.customerForm.getRawValue() as Customer;
     this.customerService.post(formData).subscribe(res => {
       console.log("Inserted customer " + JSON.stringify(res) + " in database.");
+      //It is better to add the new record to existing this.customers and not to make a call to return everything. For performance.
       this.getAllCustomers();
     });
   }

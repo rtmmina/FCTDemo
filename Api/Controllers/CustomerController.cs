@@ -10,7 +10,7 @@ using System.Net;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customer")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -22,14 +22,14 @@ namespace Api.Controllers
         }
         // GET: api/Customer
         [HttpGet]
-        public IEnumerable<Customer> Get()
+        public IEnumerable<Customer> GetCustomers()
         {
             return _customerService.Read();
         }
 
         // GET: api/Customer/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetCustomer")]
+        public string GetCustomer(int id)
         {
             return $"you requested id = {id}";
         }
@@ -39,20 +39,20 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.NotFound)]
-        public Customer Post([FromBody] Customer request)
+        public Customer PostCustomer([FromBody] Customer request)
         {            
             return _customerService.Create(request);
         }
 
         // PUT: api/Customer/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void PutCustomer(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteCustomer(int id)
         {
         }
     }

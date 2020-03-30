@@ -21,7 +21,7 @@ namespace Angular.Controllers
         }
         // GET: api/Customer
         [HttpGet]
-        public IEnumerable<Customer> Get()
+        public IEnumerable<Customer> GetCustomers()
         {
             try
             {
@@ -34,15 +34,15 @@ namespace Angular.Controllers
         }
 
         // GET: api/Customer/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetCustomer")]
+        public string GetCustomer(int id)
         {
             return "value";
         }
 
         // POST: api/Customer
         [HttpPost]
-        public Customer Post([FromBody] Customer value)
+        public Customer PostCustomer([FromBody] Customer value)
         {
             var customer = customerServiceWrapper.Post(value);            
             return customer;
@@ -50,13 +50,13 @@ namespace Angular.Controllers
 
         // PUT: api/Customer/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void PutCustomer(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteCustomer(int id)
         {
         }
     }

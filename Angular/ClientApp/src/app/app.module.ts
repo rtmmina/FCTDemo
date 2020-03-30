@@ -9,14 +9,19 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { CustomerComponent } from './customer/customer.component';
 import { CustomerService } from './customer/customer.service';
+import { ProductComponent } from './product/product.component';
+import { ProductService} from './product/product.service';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent },
-  { path: 'customer', component: CustomerComponent }
+  { path: 'customer', component: CustomerComponent },
+  { path: 'product', component: ProductComponent }
 ];
 
 @NgModule({
@@ -26,7 +31,8 @@ const appRoutes: Routes = [
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    CustomerComponent
+    CustomerComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,11 +43,13 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'customer', component: CustomerComponent }
+      { path: 'customer', component: CustomerComponent },
+      { path: 'product', component: ProductComponent }
     ])
   ],
   providers: [
-    CustomerService
+    CustomerService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
