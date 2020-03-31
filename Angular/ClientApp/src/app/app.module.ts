@@ -14,6 +14,10 @@ import { CustomerComponent } from './customer/customer.component';
 import { CustomerService } from './customer/customer.service';
 import { ProductComponent } from './product/product.component';
 import { ProductService} from './product/product.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatTableModule } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const appRoutes: Routes = [
@@ -32,7 +36,7 @@ const appRoutes: Routes = [
     CounterComponent,
     FetchDataComponent,
     CustomerComponent,
-    ProductComponent
+    ProductComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +49,10 @@ const appRoutes: Routes = [
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'customer', component: CustomerComponent },
       { path: 'product', component: ProductComponent }
-    ])
+    ]),
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     CustomerService,

@@ -19,11 +19,13 @@ namespace DataAccess.Extensions
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().ToTable("Customer");
             modelBuilder.Entity<Product>().ToTable("Product");
+            modelBuilder.Entity<Purchase>().ToTable("Purchase");
         }
     }
 }

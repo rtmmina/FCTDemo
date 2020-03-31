@@ -25,7 +25,8 @@ namespace Angular.Controllers
         {
             try
             {
-                return productServiceWrapper.Get();
+                var data = productServiceWrapper.Get();
+                return data;
             }
             catch (Exception ex)
             {

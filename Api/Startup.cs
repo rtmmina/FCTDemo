@@ -40,6 +40,9 @@ namespace Api
 
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductDAL, ProductDAL>();
+
+            services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IPurchaseDAL, PurchaseDAL>();
             //EF core
             services.AddDbContext<FCTContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
