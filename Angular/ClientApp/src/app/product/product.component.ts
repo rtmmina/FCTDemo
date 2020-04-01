@@ -3,7 +3,6 @@ import { ProductService } from './product.service'
 import { Product } from './product.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSort, MatTableModule, MatTableDataSource, MatTable } from '@angular/material';
-import { MatTableDataSource } from '@angular/material'
 
 const ELEMENT_DATA: Product[] = [
   { id: 1, name: 'Hydrogen', description: 'H', price: 1.0079},

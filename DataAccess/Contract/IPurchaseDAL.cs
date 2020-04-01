@@ -7,8 +7,10 @@ namespace DataAccess.Contract
 {
     public interface IPurchaseDAL
     {
-        Purchase Read(int ID);
-        List<Purchase> Read();
-        Purchase Create(Purchase purchase);
+        PurchaseDetails Read(int ID);
+        List<PurchaseDetails> Read();
+        PurchaseDetails Create(PurchaseDetails purchase);
+        PurchaseDetails Delete(int id);
+
     }
 }

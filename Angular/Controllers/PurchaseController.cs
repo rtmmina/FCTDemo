@@ -5,30 +5,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Common.DTO;
-using Service.Contract;
-using System.Net;
+using Angular.Contracts;
 
-namespace Api.Controllers
+
+namespace Angular.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class PurchaseController : ControllerBase
     {
-        private readonly IPurchaseService _purchaseService;
+        private readonly IPurchaseServiceWrapper purchaseServiceWrapper;
 
-        public PurchaseController(IPurchaseService purchaseService)
+        public PurchaseController(IPurchaseServiceWrapper PurchaseServiceWrapper)
         {
-            _purchaseService = purchaseService;
+            purchaseServiceWrapper = PurchaseServiceWrapper;
         }
+
         // GET: api/Purchase
         [HttpGet]
         public IEnumerable<PurchaseDetails> GetPurchases()
         {
-            return _purchaseService.Read();
+            return purchaseServiceWrapper.Get();
         }
 
         // GET: api/Purchase/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetPurchase")]
         public string GetPurchase(int id)
         {
             return "value";
@@ -38,7 +39,14 @@ namespace Api.Controllers
         [HttpPost]
         public PurchaseDetails PostPurchase([FromBody] PurchaseDetails value)
         {
-            return _purchaseService.Post(value);
+            //if (value.ID == null || value.ID == 0)
+                return purchaseServiceWrapper.Post(value);
+            //else
+            //{
+            //    var isDelete = purchaseServiceWrapper.Delete((int)value.ID);
+            //    return value;//should not be returning the same value, but just for the moment.
+            //}
+                
         }
 
         // PUT: api/Purchase/5
@@ -49,9 +57,8 @@ namespace Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public PurchaseDetails DeletePurchase(int id)
+        public void DeletePurchase(int id)
         {
-            return _purchaseService.Delete(id);
         }
     }
 }

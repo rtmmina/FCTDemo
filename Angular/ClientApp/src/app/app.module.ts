@@ -13,7 +13,12 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CustomerService } from './customer/customer.service';
 import { ProductComponent } from './product/product.component';
-import { ProductService} from './product/product.service';
+import { ProductService } from './product/product.service';
+import { PurchaseComponent } from './purchase/purchase.component';
+import { PurchaseService } from './purchase/purchase.service';
+
+import { JwtAuthorizatonService } from './jwtauthorization/jwtauthorization.service';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatTableModule } from '@angular/material';
@@ -37,6 +42,7 @@ const appRoutes: Routes = [
     FetchDataComponent,
     CustomerComponent,
     ProductComponent,
+    PurchaseComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -48,7 +54,8 @@ const appRoutes: Routes = [
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'customer', component: CustomerComponent },
-      { path: 'product', component: ProductComponent }
+      { path: 'product', component: ProductComponent },
+      { path: 'purchase', component: PurchaseComponent }
     ]),
     BrowserAnimationsModule,
     MatTableModule,
@@ -56,7 +63,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     CustomerService,
-    ProductService
+    ProductService,
+    PurchaseService,
+    JwtAuthorizatonService
   ],
   bootstrap: [AppComponent]
 })

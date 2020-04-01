@@ -32,6 +32,7 @@ namespace Angular
             //services.AddScoped<ICustomerServiceWrapper, CustomerServiceWrapper>();
             services.AddHttpClient<ICustomerServiceWrapper, CustomerServiceWrapper>();
             services.AddHttpClient<IProductServiceWrapper, ProductServiceWrapper>();
+            services.AddHttpClient<IPurchaseServiceWrapper, PurchaseServiceWrapper>();
             //services.AddTransient<ICustomerServiceWrapper, CustomerServiceWrapper>();
         }
 

@@ -15,13 +15,21 @@ namespace Service.Implementation
         {
             _purchaseDAL = purchaseDAL;
         }
-        public Purchase Create(Purchase purchase)
+        public PurchaseDetails Post(PurchaseDetails purchase)
         {
             //return customer;
-            return _purchaseDAL.Create(purchase);
+            if (purchase.ID == null || purchase.ID == 0)
+                return _purchaseDAL.Create(purchase);
+            else
+                return _purchaseDAL.Delete((int)purchase.ID);
         }
 
-        public List<Purchase> Read()
+        public PurchaseDetails Delete(int id)
+        {
+            return _purchaseDAL.Delete(id);
+        }
+
+        public List<PurchaseDetails> Read()
         {
             return _purchaseDAL.Read();
         }

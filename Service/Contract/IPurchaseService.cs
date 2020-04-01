@@ -7,7 +7,8 @@ namespace Service.Contract
 {
     public interface IPurchaseService
     {
-        List<Purchase> Read();
-        Purchase Create(Purchase purchase);
+        List<PurchaseDetails> Read();
+        PurchaseDetails Post(PurchaseDetails purchase);
+        PurchaseDetails Delete(int id);
     }
 }
