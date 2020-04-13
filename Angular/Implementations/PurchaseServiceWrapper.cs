@@ -22,11 +22,11 @@ namespace Angular.Implementations
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public bool Delete(int id)
+        public PurchaseDetails Delete(PurchaseDetails purchase)
         {
-            var data = false;
-            StringContent request = new StringContent(JsonConvert.SerializeObject(id), UnicodeEncoding.UTF8, "application/json");
-            var responseTask = client.DeleteAsync("Purchase");
+            var data = new PurchaseDetails();
+            StringContent request = new StringContent(JsonConvert.SerializeObject(purchase), UnicodeEncoding.UTF8, "application/json");
+            var responseTask = client.PostAsync("Purchase/DeletePurchase", request);
             responseTask.Wait();
 
 
@@ -37,7 +37,7 @@ namespace Angular.Implementations
                 var readTask = result.Content.ReadAsStringAsync();
                 readTask.Wait();
 
-                data = JsonConvert.DeserializeObject<bool>(readTask.Result);
+                data = JsonConvert.DeserializeObject<PurchaseDetails>(readTask.Result);
             }
 
             return data;

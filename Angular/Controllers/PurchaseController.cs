@@ -56,9 +56,10 @@ namespace Angular.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void DeletePurchase(int id)
+        [Route("DeletePurchase")]
+        public PurchaseDetails DeletePurchase([FromBody] PurchaseDetails value)
         {
+            return purchaseServiceWrapper.Delete(value);
         }
     }
 }

@@ -48,10 +48,11 @@ namespace Api.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public PurchaseDetails DeletePurchase(int id)
+        //[HttpDelete("{id}")]
+        [Route("DeletePurchase")]
+        public PurchaseDetails DeletePurchase(PurchaseDetails obj)
         {
-            return _purchaseService.Delete(id);
+            return _purchaseService.Delete(obj.ID ?? 0);
         }
     }
 }

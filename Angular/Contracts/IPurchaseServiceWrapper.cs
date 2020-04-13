@@ -10,6 +10,6 @@ namespace Angular.Contracts
     {
         List<PurchaseDetails> Get();
         PurchaseDetails Post(PurchaseDetails purchase);
-        bool Delete(int id);
+        PurchaseDetails Delete(PurchaseDetails purchase);
     }
 }

@@ -24,7 +24,7 @@ export class PurchaseService {
   }
 
   public delete(obj: Purchase): Observable<Purchase> {
-    return this.http.post<Purchase>(this.accessPointUrl, obj, { headers: this.headers });
+    return this.http.post<Purchase>(this.accessPointUrl + '/DeletePurchase', obj, { headers: this.headers });
   }
 
 }
