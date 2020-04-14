@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { CustomerService} from './customer.service'
 import { Customer } from './customer.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-customer',
@@ -16,7 +17,7 @@ export class CustomerComponent implements OnInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService) {
+  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private spinnerService: NgxSpinnerService) {
     this.customerForm = formBuilder.group({
       name: new FormControl(''),
       email: new FormControl(''),
@@ -25,18 +26,22 @@ export class CustomerComponent implements OnInit {
     this.getAllCustomers();
   }
 
-  save() {    
+  save() {
+    this.spinnerService.show();
     let formData = this.customerForm.getRawValue() as Customer;
     this.customerService.post(formData).subscribe(res => {
       console.log("Inserted customer " + JSON.stringify(res) + " in database.");
       //It is better to add the new record to existing this.customers and not to make a call to return everything. For performance.
       this.getAllCustomers();
+      this.spinnerService.hide();
     });
   }
 
-  getAllCustomers() {
+  getAllCustomers() {    
+    this.spinnerService.show();
     this.customerService.get().subscribe(res => {
       this.customers = res;
+      this.spinnerService.hide();
     });
   }
 }

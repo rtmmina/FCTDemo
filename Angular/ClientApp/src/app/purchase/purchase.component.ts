@@ -3,6 +3,7 @@ import { PurchaseService } from './purchase.service';
 import { JwtAuthorizatonService} from '../jwtauthorization/jwtauthorization.service';
 import { Purchase, Token } from './purchase.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-customer',
@@ -17,17 +18,17 @@ export class PurchaseComponent implements OnInit {
     
   }
 
-
-  constructor(private formBuilder: FormBuilder, private purchaseService: PurchaseService, private jwtAuth: JwtAuthorizatonService) {
+  constructor(private formBuilder: FormBuilder, private purchaseService: PurchaseService, private jwtAuth: JwtAuthorizatonService, private spinnerService: NgxSpinnerService) {
     this.purchaseForm = formBuilder.group({
       id: new FormControl(''),
       email: new FormControl(''),
       productName: new FormControl(''),
       token: new FormControl('')
     });
-    this.getAllPurchases();
 
-    this.purchaseForm.controls['email'].valueChanges.subscribe(val => {
+    this.purchaseForm.controls['email']
+      .valueChanges
+      .subscribe(val => {
       var obj = new Token;
       obj.email = val;
       obj.jwtToken = "";
@@ -38,10 +39,14 @@ export class PurchaseComponent implements OnInit {
       });
       //console.log('value changes');
       this.purchaseForm.controls['id'].setValue(val);
-    });
+      });
+        
+      this.getAllPurchases();      
+    
   }
 
   Delete(id) {
+    this.spinnerService.show();
     var obj = new Purchase;
     obj.id = id;
     obj.email = "";
@@ -53,6 +58,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   save() {
+    this.spinnerService.show();
     let token = new Token;
     token.email = "";
     token.jwtToken = this.purchaseForm.controls['token'].value;
@@ -80,9 +86,12 @@ export class PurchaseComponent implements OnInit {
   }
 
   getAllPurchases() {
+    this.spinnerService.show();
+
     this.purchaseService.get().subscribe(res => {
       console.log("Get All Purchases are " + JSON.stringify(res));
       this.purchases = res;
+      this.spinnerService.hide();
     });
   }
 }

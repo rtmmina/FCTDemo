@@ -17,9 +17,11 @@ import { ProductService } from './product/product.service';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { PurchaseService } from './purchase/purchase.service';
 
+
 import { JwtAuthorizatonService } from './jwtauthorization/jwtauthorization.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MatTableModule } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
@@ -49,6 +51,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxSpinnerModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

@@ -3,6 +3,7 @@ import { ProductService } from './product.service'
 import { Product } from './product.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSort, MatTableModule, MatTableDataSource, MatTable } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const ELEMENT_DATA: Product[] = [
   { id: 1, name: 'Hydrogen', description: 'H', price: 1.0079},
@@ -47,7 +48,7 @@ export class ProductComponent implements OnInit {
     this.description = new FormControl('');
     this.price = new FormControl('', Validators.min(0.01));
     this.getAllProducts();
-    console.log("And here is " + JSON.stringify(this.products));
+    //console.log("And here is " + JSON.stringify(this.products));
     //this.dataSource = new MatTableDataSource(this.products);
 
     //this.dataSource.sort = this.sort;
@@ -60,16 +61,11 @@ export class ProductComponent implements OnInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductService) {
-    //this.productForm = formBuilder.group({
-    //  name: new FormControl(''),
-    //  description: new FormControl(''),
-    //  price: new FormControl('')
-    //});
-    this.getAllProducts();
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private spinnerService: NgxSpinnerService) {
   }
 
   save() {
+    this.spinnerService.show();
     let formData = this.productForm.getRawValue() as Product;
     console.log('product post data is ' + JSON.stringify(formData));
     this.productService.post(formData).subscribe(res => {
@@ -80,13 +76,15 @@ export class ProductComponent implements OnInit {
   }
 
   getAllProducts() {
+    this.spinnerService.show();
     console.log("hit getAllProducts");
     this.productService.get().subscribe(res => {
       this.products = res;
-      console.log("products are " + JSON.stringify(this.products));
+      //console.log("products are " + JSON.stringify(this.products));
       this.dataSource = new MatTableDataSource(this.products);
 
       this.dataSource.sort = this.sort;
+      this.spinnerService.hide();
       //this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     });
     //this.dataSource = new MatTableDataSource(res);

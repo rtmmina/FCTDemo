@@ -31,12 +31,14 @@
   <div class="form-group">
     <button type="submit" class="btn btn-default">Save</button>
   </div>
+  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" typeof="ball-spin-clockwise">
+    <p style="color: white">Please wait.</p>
+  </ngx-spinner>
 
   <!--<p *ngIf="!products"><em>Loading...</em></p>-->
-
   <!--used this article for material table to sort by price (and all)-->
   <!--https://material.angular.io/components/sort/overview-->
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive ="price">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="price">
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">
