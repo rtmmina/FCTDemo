@@ -19,7 +19,24 @@ namespace DataAccess.Implementation
 
         public Product Create(Product product)
         {
-            _context.Products.Add(product);
+            var productInDB = _context.Products.FirstOrDefault(a => a.Name.Trim().ToUpper() == product.Name.Trim().ToUpper());
+            if(productInDB == null)
+            {
+                _context.Products.Add(product);
+            }
+            else
+            {
+                if(
+                    product.Description.ToUpper() != productInDB.Description.ToUpper()
+                    ||
+                    product.Price != productInDB.Price
+                    )
+                {
+                    productInDB.Description = product.Description;
+                    productInDB.Price = product.Price;
+                    _context.Update(productInDB);
+                }
+            }
             _context.SaveChanges();
 
             return product;

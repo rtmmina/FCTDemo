@@ -18,7 +18,25 @@ namespace DataAccess.Implementation
         }
         public Customer Create(Customer customer)
         {
-            _context.Customers.Add(customer);
+            var customerInDB = _context.Customers.FirstOrDefault(a => a.Email.Trim().ToUpper() == customer.Email.Trim().ToUpper());
+            if(customerInDB == null)
+            {
+                _context.Customers.Add(customer);
+            }
+            else
+            {
+                if(
+                    customer.Name.ToUpper() != customerInDB.Name.ToUpper()
+                    ||
+                    customer.Password != customerInDB.Password
+                    )
+                {
+                    customerInDB.Name = customer.Name;
+                    customerInDB.Password = customer.Password;
+                    _context.Update(customerInDB);
+                }
+            }
+
             _context.SaveChanges();
 
             return customer;
