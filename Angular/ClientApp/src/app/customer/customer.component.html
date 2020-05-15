@@ -1,60 +1,87 @@
 <h1 id="tableLabel">Customer(s) page</h1>
-
-<!--<form [formGroup]="customerForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>-->
-<form [formGroup]="customerForm" (ngSubmit)="save()" >
-  <div class="form-group row">
-    <label class=" control-label col-md-12">Name</label>
-    <div class="col-md-4">
-      <input class="form-control" type="text" formControlName="name">
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" typeof="ball-spin-clockwise">
+  <p style="color: white">Please wait.</p>
+</ngx-spinner>
+<div *ngIf="isUserLogged==false">
+  Log In Page.
+  <br *ngIf="invalidUser"/>
+  <b *ngIf="invalidUser" style="color: red">Incorrect login information</b>
+  <form [formGroup]="customerFormLogin" (ngSubmit)="Login()">
+    <div class="form-group row">
+      <label class=" control-label col-md-12">Email</label>
+      <div class="col-md-4">
+        <input class="form-control" type="text" formControlName="email">
+      </div>
     </div>
-    <!--<span class="text-danger" *ngIf="name.invalid && formDir.submitted">
-      Name is required.
-    </span>-->
-  </div>
-  <div class="form-group row">
-    <label class=" control-label col-md-12">Email</label>
-    <div class="col-md-4">
-      <input class="form-control" type="text" formControlName="email">
+    <div class="form-group row">
+      <label class=" control-label col-md-12">Password</label>
+      <div class="col-md-4">
+        <input class="form-control" type="password" formControlName="password">
+      </div>
     </div>
-    <!--<span class="text-danger" *ngIf="email.invalid && formDir.submitted">
-      Email is required.
-    </span>-->
-  </div>
-  <div class="form-group row">
-    <label class=" control-label col-md-12">Password</label>
-    <div class="col-md-4">
-      <input class="form-control" type="password" formControlName="password">
+    <div class="form-group">
+      <button type="submit" class="btn btn-default" style="color:aqua" *ngIf="this.customerFormLogin.invalid == false">Login</button>
     </div>
-    <!--<span class="text-danger" *ngIf="password.invalid && formDir.submitted">
-      Password is required.
-    </span>-->
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-default">Save</button>
-  </div>
 
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" typeof="ball-spin-clockwise">
-    <p style="color: white">Please wait.</p>
-  </ngx-spinner>
-  <!--<p *ngIf="!customers"><em>Loading...</em></p>-->
+  </form>
+</div>
 
-  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="customers">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Password</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{ customer.id }}</td>
-        <td>{{ customer.name}}</td>
-        <td>{{ customer.email }}</td>
-        <td style="-webkit-text-security: disc;">{{ customer.password }}</td>
-      </tr>
-    </tbody>
-  </table>
-</form>
+<div *ngIf="isUserLogged">
+  New and existing customers.
+  <!--<form [formGroup]="customerForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>-->
+  <form [formGroup]="customerForm" (ngSubmit)="save()">
+    <div class="form-group row">
+      <label class=" control-label col-md-12">Name</label>
+      <div class="col-md-4">
+        <input class="form-control" type="text" formControlName="name">
+      </div>
+      <!--<span class="text-danger" *ngIf="name.invalid && formDir.submitted">
+        Name is required.
+      </span>-->
+    </div>
+    <div class="form-group row">
+      <label class=" control-label col-md-12">Email</label>
+      <div class="col-md-4">
+        <input class="form-control" type="text" formControlName="email">
+      </div>
+      <!--<span class="text-danger" *ngIf="email.invalid && formDir.submitted">
+        Email is required.
+      </span>-->
+    </div>
+    <div class="form-group row">
+      <label class=" control-label col-md-12">Password</label>
+      <div class="col-md-4">
+        <input class="form-control" type="password" formControlName="password">
+      </div>
+      <!--<span class="text-danger" *ngIf="password.invalid && formDir.submitted">
+        Password is required.
+      </span>-->
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default" style="color:blue">Save</button>
+    </div>
 
+
+    <!--<p *ngIf="!customers"><em>Loading...</em></p>-->
+
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="customers">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.name}}</td>
+          <td>{{ customer.email }}</td>
+          <td style="-webkit-text-security: disc;">{{ customer.password }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+
+</div>

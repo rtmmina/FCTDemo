@@ -10,5 +10,6 @@ namespace DataAccess.Contract
         Customer Read(int ID);
         List<Customer> Read();
         Customer Create(Customer customer);
+        Customer ValidateCustomer(Customer customer);
     }
 }

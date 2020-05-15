@@ -4,6 +4,8 @@ import { JwtAuthorizatonService} from '../jwtauthorization/jwtauthorization.serv
 import { Purchase, Token } from './purchase.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+//import 'rxjs/add/operator/debounceTime';
+//import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-customer',
@@ -28,6 +30,7 @@ export class PurchaseComponent implements OnInit {
 
     this.purchaseForm.controls['email']
       .valueChanges
+      //.debounceTime(600)
       .subscribe(val => {
       var obj = new Token;
       obj.email = val;

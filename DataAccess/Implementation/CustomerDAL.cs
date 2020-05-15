@@ -61,5 +61,16 @@ namespace DataAccess.Implementation
 
             return data;
         }
+
+        public Customer ValidateCustomer(Customer customer)
+        {
+            var customerInDB = _context.Customers.FirstOrDefault(a => a.Email.ToUpper() == customer.Email.ToUpper());
+            if (customerInDB?.ID > 0)
+            {
+                customer.ID = customerInDB.ID;
+            }
+
+            return customer;
+        }
     }
 }

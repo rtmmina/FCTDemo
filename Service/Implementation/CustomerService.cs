@@ -34,5 +34,10 @@ namespace Service.Implementation
         {
             return _customerDAL.Read();
         }
+
+        public Customer ValidateCustomer(Customer customer)
+        {
+            return _customerDAL.ValidateCustomer(customer);
+        }
     }
 }

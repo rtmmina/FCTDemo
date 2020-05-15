@@ -55,5 +55,11 @@ namespace Api.Controllers
         public void DeleteCustomer(int id)
         {
         }
+
+        [Route("ValidateCustomer")]
+        public Customer ValidateCustomer(Customer customer)
+        {
+            return _customerService.ValidateCustomer(customer);
+        }
     }
 }

@@ -62,5 +62,35 @@ namespace Angular.Implementations
             return data;
 
         }
+
+        public UserModel ValidateLogin(UserModel customer)
+        {
+            var data = new UserModel();
+            var model = new UserModel()
+            {
+                //Username = customer.Email,
+                //EmailAddress = customer.Email,
+                //Password = customer.Password
+                Username = "johndoe",
+                EmailAddress = "Jignesh",
+                Password = "def@123"
+            };
+            StringContent request = new StringContent(JsonConvert.SerializeObject(model), UnicodeEncoding.UTF8, "application/json");
+            var responseTask = client.PostAsync("Login/ValidateCustomer", request);
+
+            responseTask.Wait();
+
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+
+                data = JsonConvert.DeserializeObject<UserModel>(readTask.Result);
+            }
+
+            return data;
+        }
     }
 }
