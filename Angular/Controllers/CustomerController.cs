@@ -72,19 +72,21 @@ namespace Angular.Controllers
 
         [AllowAnonymous]
         [Route("Login")]
-        public IActionResult Login([FromBody] UserModel login)
+        public IActionResult Login([FromBody] Login login)
         {
-            //return customerServiceWrapper.ValidateLogin(customer);
-            login.Username = "johndoe";
-            login.EmailAddress = "johndoe";
-            login.Password = "def@123";
+            var result = customerServiceWrapper.ValidateLogin(login);
 
-            if (login == null)
+            //return Ok(result);
+            //login.Username = "johndoe";
+            //login.EmailAddress = "johndoe";
+            //login.Password = "def@123";
+
+            if (result == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            if (login.Username == "johndoe" && login.Password == "def@123")
+            if (result.ID != null && result.ID > 1)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -92,16 +94,19 @@ namespace Angular.Controllers
                 var tokeOptions = new JwtSecurityToken(
                     issuer: "https://localhost:44330",
                     audience: "https://localhost:44330",
-                    claims: new List<Claim>() { 
-                        new Claim("Username", login.Username),
-                        new Claim("EmailAddress", login.EmailAddress)
+                    claims: new List<Claim>() {
+                        new Claim("EmailAddress", login.Email)
                     },
                     expires: DateTime.Now.AddMinutes(120),
                     signingCredentials: signinCredentials
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new { Token = tokenString });
+                login.ID = result.ID;
+                login.Name = result.Name;
+                login.Email = login.Email;
+                login.Token = tokenString;
+                return Ok(login);
             }
             else
             {

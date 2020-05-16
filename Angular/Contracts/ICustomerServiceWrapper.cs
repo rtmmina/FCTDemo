@@ -10,6 +10,6 @@ namespace Angular.Contracts
     {
         List<Customer> Get();
         Customer Post(Customer customer);
-        UserModel ValidateLogin(UserModel customer);
+        Login ValidateLogin(Login customer);
     }
 }

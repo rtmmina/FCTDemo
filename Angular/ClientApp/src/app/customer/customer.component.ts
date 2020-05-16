@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CustomerService } from './customer.service'
-import { Customer, UserModel } from './customer.model';
+import { Customer, Login } from './customer.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 //import { Observable } from 'rxjs/Observable';
@@ -41,7 +41,7 @@ export class CustomerComponent implements OnInit {
     });
     this.customerFormLogin = formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('')
+      password: new FormControl('', Validators.required)
     })
     this.isUserLogged = false;
     this.invalidUser = false;
@@ -50,7 +50,8 @@ export class CustomerComponent implements OnInit {
   Login() {
     this.invalidUser = false;
     this.spinnerService.show();
-    let formData = this.customerFormLogin.getRawValue() as UserModel;
+    let formData = this.customerFormLogin.getRawValue() as Login;
+    console.log("User mode is " + JSON.stringify(formData));
     this.customerService.login(formData).subscribe(res => {
       console.log("Inserted customer " + JSON.stringify(res) + " in database.");
       if (res.token.length > 0) {

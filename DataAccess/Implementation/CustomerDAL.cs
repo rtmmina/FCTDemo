@@ -67,10 +67,12 @@ namespace DataAccess.Implementation
             var customerInDB = _context.Customers.FirstOrDefault(a => a.Email.ToUpper() == customer.Email.ToUpper());
             if (customerInDB?.ID > 0)
             {
-                customer.ID = customerInDB.ID;
+                return customerInDB;
             }
-
-            return customer;
+            else
+            {
+                return customer;
+            }            
         }
     }
 }

@@ -6,10 +6,10 @@ var Customer = /** @class */ (function () {
     return Customer;
 }());
 exports.Customer = Customer;
-var UserModel = /** @class */ (function () {
-    function UserModel() {
+var Login = /** @class */ (function () {
+    function Login() {
     }
-    return UserModel;
+    return Login;
 }());
-exports.UserModel = UserModel;
+exports.Login = Login;
 //# sourceMappingURL=customer.model.js.map

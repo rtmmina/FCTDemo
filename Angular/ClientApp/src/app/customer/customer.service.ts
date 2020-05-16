@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, UserModel } from './customer.model';
+import { Customer, Login } from './customer.model';
 import { NgForm } from '@angular/forms';
 
 
@@ -28,7 +28,7 @@ export class CustomerService {
     return this.http.post<Customer>(this.accessPointUrl, obj, { headers: this.headers });
   }
 
-  public login(obj: UserModel): Observable<UserModel> {
-    return this.http.post<UserModel>(this.accessPointUrl + '/login', obj, { headers: this.headers })      
+  public login(obj: Login): Observable<Login> {
+    return this.http.post<Login>(this.accessPointUrl + '/login', obj, { headers: this.headers })      
   };
 }

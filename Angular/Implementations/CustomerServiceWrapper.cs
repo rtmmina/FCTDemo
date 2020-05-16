@@ -63,20 +63,15 @@ namespace Angular.Implementations
 
         }
 
-        public UserModel ValidateLogin(UserModel customer)
+        public Login ValidateLogin(Login customer)
         {
-            var data = new UserModel();
-            var model = new UserModel()
+            var mappedCustomer = new Customer()
             {
-                //Username = customer.Email,
-                //EmailAddress = customer.Email,
-                //Password = customer.Password
-                Username = "johndoe",
-                EmailAddress = "Jignesh",
-                Password = "def@123"
+                Email = customer.Email,
+                Password = customer.Password
             };
-            StringContent request = new StringContent(JsonConvert.SerializeObject(model), UnicodeEncoding.UTF8, "application/json");
-            var responseTask = client.PostAsync("Login/ValidateCustomer", request);
+            StringContent request = new StringContent(JsonConvert.SerializeObject(mappedCustomer), UnicodeEncoding.UTF8, "application/json");
+            var responseTask = client.PostAsync("Customer/ValidateCustomer", request);
 
             responseTask.Wait();
 
@@ -87,10 +82,18 @@ namespace Angular.Implementations
                 var readTask = result.Content.ReadAsStringAsync();
                 readTask.Wait();
 
-                data = JsonConvert.DeserializeObject<UserModel>(readTask.Result);
+                mappedCustomer = JsonConvert.DeserializeObject<Customer>(readTask.Result);
             }
 
-            return data;
+            var rVal = new Login()
+            {
+                Email = mappedCustomer.Email,
+                ID = mappedCustomer.ID,
+                Name = mappedCustomer.Name,
+                Password = mappedCustomer.Password
+            };
+
+            return rVal;
         }
     }
 }
