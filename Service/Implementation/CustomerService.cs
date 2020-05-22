@@ -22,7 +22,7 @@ namespace Service.Implementation
             //return customer;
             customer.Email = customer.Email.Trim();
             customer.Name = customer.Name.Trim();
-            customer.Password = customer.Password.Trim();
+            customer.Password = ComputeSha256Hash(customer.Password.Trim());
             return _customerDAL.Create(customer);
         }
 
