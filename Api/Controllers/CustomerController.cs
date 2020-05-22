@@ -39,9 +39,9 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Customer), (int)HttpStatusCode.NotFound)]
-        public Customer PostCustomer([FromBody] Customer request)
+        public IActionResult PostCustomer([FromBody] Customer request)
         {            
-            return _customerService.Create(request);
+            return Ok(_customerService.Create(request));
         }
 
         // PUT: api/Customer/5
@@ -57,9 +57,9 @@ namespace Api.Controllers
         }
 
         [Route("ValidateCustomer")]
-        public Customer ValidateCustomer(Customer customer)
+        public IActionResult ValidateCustomer(Customer customer)
         {
-            return _customerService.ValidateCustomer(customer);
+            return Ok(_customerService.ValidateCustomer(customer));
         }
     }
 }

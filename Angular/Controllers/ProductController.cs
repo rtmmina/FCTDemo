@@ -21,12 +21,12 @@ namespace Angular.Controllers
         }
         // GET: api/Product
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IActionResult GetProducts()
         {
             try
             {
                 var data = productServiceWrapper.Get();
-                return data;
+                return Ok(data);
             }
             catch (Exception ex)
             {
@@ -43,10 +43,10 @@ namespace Angular.Controllers
 
         // POST: api/Product
         [HttpPost]
-        public Product PostProduct([FromBody] Product value)
+        public IActionResult PostProduct([FromBody] Product value)
         {
             var product = productServiceWrapper.Post(value);
-            return product;
+            return Ok(product);
         }
 
         // PUT: api/Product/5

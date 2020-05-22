@@ -64,7 +64,7 @@ namespace DataAccess.Implementation
 
         public Customer ValidateCustomer(Customer customer)
         {
-            var customerInDB = _context.Customers.FirstOrDefault(a => a.Email.ToUpper() == customer.Email.ToUpper());
+            var customerInDB = _context.Customers.FirstOrDefault(a => a.Email.ToUpper() == customer.Email.ToUpper() && a.Password == customer.Password);
             if (customerInDB?.ID > 0)
             {
                 return customerInDB;

@@ -22,9 +22,9 @@ namespace Api.Controllers
         }
         // GET: api/Purchase
         [HttpGet]
-        public IEnumerable<PurchaseDetails> GetPurchases()
+        public IActionResult GetPurchases()
         {
-            return _purchaseService.Read();
+            return Ok(_purchaseService.Read());
         }
 
         // GET: api/Purchase/5
@@ -36,9 +36,9 @@ namespace Api.Controllers
 
         // POST: api/Purchase
         [HttpPost]
-        public PurchaseDetails PostPurchase([FromBody] PurchaseDetails value)
+        public IActionResult PostPurchase([FromBody] PurchaseDetails value)
         {
-            return _purchaseService.Post(value);
+            return Ok(_purchaseService.Post(value));
         }
 
         // PUT: api/Purchase/5
@@ -50,9 +50,9 @@ namespace Api.Controllers
         // DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
         [Route("DeletePurchase")]
-        public PurchaseDetails DeletePurchase(PurchaseDetails obj)
+        public IActionResult DeletePurchase(PurchaseDetails obj)
         {
-            return _purchaseService.Delete(obj.ID ?? 0);
+            return Ok(_purchaseService.Delete(obj.ID ?? 0));
         }
     }
 }

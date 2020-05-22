@@ -22,9 +22,9 @@ namespace Api.Controllers
         }
         // GET: api/Product
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IActionResult GetProducts()
         {
-            return _productService.Read();
+            return Ok(_productService.Read());
         }
 
         // GET: api/Product/5
@@ -39,9 +39,9 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.NotFound)]
-        public Product PostProduct([FromBody] Product request)
+        public IActionResult PostProduct([FromBody] Product request)
         {
-            return _productService.Create(request);
+            return Ok(_productService.Create(request));
         }
 
         // PUT: api/Product/5

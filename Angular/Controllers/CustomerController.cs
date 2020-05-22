@@ -52,10 +52,10 @@ namespace Angular.Controllers
 
         // POST: api/Customer
         [HttpPost]
-        public Customer PostCustomer([FromBody] Customer value)
+        public IActionResult PostCustomer([FromBody] Customer value)
         {
             var customer = customerServiceWrapper.Post(value);            
-            return customer;
+            return Ok(customer);
         }
 
         // PUT: api/Customer/5
@@ -74,6 +74,7 @@ namespace Angular.Controllers
         [Route("Login")]
         public IActionResult Login([FromBody] Login login)
         {
+            //login.Password = ComputeSha256Hash(login.Password);
             var result = customerServiceWrapper.ValidateLogin(login);
 
             //return Ok(result);
@@ -110,9 +111,10 @@ namespace Angular.Controllers
             }
             else
             {
-                return Unauthorized();
+                return Ok(login);
             }
         }
+        
 
         //private string GenerateJSONWebToken(UserModel userInfo)
         //{

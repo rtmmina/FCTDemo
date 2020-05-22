@@ -23,9 +23,9 @@ namespace Angular.Controllers
 
         // GET: api/Purchase
         [HttpGet]
-        public IEnumerable<PurchaseDetails> GetPurchases()
+        public IActionResult GetPurchases()
         {
-            return purchaseServiceWrapper.Get();
+            return Ok(purchaseServiceWrapper.Get());
         }
 
         // GET: api/Purchase/5
@@ -37,10 +37,10 @@ namespace Angular.Controllers
 
         // POST: api/Purchase
         [HttpPost]
-        public PurchaseDetails PostPurchase([FromBody] PurchaseDetails value)
+        public IActionResult PostPurchase([FromBody] PurchaseDetails value)
         {
             //if (value.ID == null || value.ID == 0)
-                return purchaseServiceWrapper.Post(value);
+                return Ok(purchaseServiceWrapper.Post(value));
             //else
             //{
             //    var isDelete = purchaseServiceWrapper.Delete((int)value.ID);
@@ -57,9 +57,9 @@ namespace Angular.Controllers
 
         // DELETE: api/ApiWithActions/5
         [Route("DeletePurchase")]
-        public PurchaseDetails DeletePurchase([FromBody] PurchaseDetails value)
+        public IActionResult DeletePurchase([FromBody] PurchaseDetails value)
         {
-            return purchaseServiceWrapper.Delete(value);
+            return Ok(purchaseServiceWrapper.Delete(value));
         }
     }
 }
