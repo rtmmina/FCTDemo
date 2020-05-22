@@ -12,23 +12,30 @@ export class CustomerService {
   private accessPointUrl: string = 'https://localhost:44330/api/customer';
 
   constructor(private http: HttpClient) {
-    let token = localStorage.getItem("jwt");
-    console.log("token new is " + token);
-    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
-    this.headers = headers_object;
     //this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
   public get(): Observable<Array<Customer>> {
+    let token = localStorage.getItem("jwt");
+    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
+    this.headers = headers_object;
     // Get all jogging data
     return this.http.get<Array<Customer>>(this.accessPointUrl, { headers: this.headers });
   }
 
   public post(obj: Customer): Observable<Customer> {
+    let token = localStorage.getItem("jwt");
+    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
+    this.headers = headers_object;
+
     return this.http.post<Customer>(this.accessPointUrl, obj, { headers: this.headers });
   }
 
   public login(obj: Login): Observable<Login> {
+    let token = localStorage.getItem("jwt");
+    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
+    this.headers = headers_object;
+
     return this.http.post<Login>(this.accessPointUrl + '/login', obj, { headers: this.headers })      
   };
 }

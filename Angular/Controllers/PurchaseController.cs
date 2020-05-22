@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Common.DTO;
 using Angular.Contracts;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Angular.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseServiceWrapper purchaseServiceWrapper;
