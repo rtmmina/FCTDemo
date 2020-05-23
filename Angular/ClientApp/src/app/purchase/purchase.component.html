@@ -1,0 +1,69 @@
+<h1 id="tableLabel">Purchase(s) page</h1>
+
+<!--<form [formGroup]="customerForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>-->
+<form [formGroup]="purchaseForm" (ngSubmit)="save()">
+  <!--<div class="form-group row">
+    <label class=" control-label col-md-12">ID</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="id">
+    </div>
+  </div>-->
+  <!--<div class="form-group row">
+    <label class=" control-label col-md-12">User ID</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="userId">
+    </div>
+  </div>-->
+  <div class="form-group row">
+    <label class=" control-label col-md-12">User Email</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="email">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class=" control-label col-md-12">This would display the JWT resulting after entering email. Please use jwt.io to validate</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="token">
+    </div>
+  </div>
+  <!--<div class="form-group row">
+    <label class=" control-label col-md-12">Proudct ID</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="productId">
+    </div>
+  </div>-->
+  <div class="form-group row">
+    <label class=" control-label col-md-12">Proudct Name</label>
+    <div class="col-md-4">
+      <input class="form-control" type="text" formControlName="productName">
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Save</button>
+  </div>
+
+
+</form>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" typeof="ball-spin-clockwise">
+  <p style="color: white">Please wait.</p>
+</ngx-spinner>
+<!--<p *ngIf="!purchases"><em>Loading...</em></p>-->
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="purchases">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Product Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let purchase of purchases">
+      <td>{{ purchase.id }}</td>
+      <td>{{ purchase.email }}</td>
+      <td>{{ purchase.productName }}</td>
+      <button (click)="Delete(purchase.id)">Delete</button>
+    </tr>
+  </tbody>
+</table>
