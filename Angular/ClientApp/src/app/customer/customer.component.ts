@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CustomerService } from './customer.service'
-import { Customer, Login } from './customer.model';
+import { CustomerService } from './customer.service';
+import { JwtAuthorizatonService } from '../jwtauthorization/jwtauthorization.service';
+import { Login } from '../jwtauthorization/login.model';
+import { Customer } from './customer.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 //import { Observable } from 'rxjs/Observable';
@@ -33,9 +35,12 @@ export class CustomerComponent implements OnInit {
       var currentTime = new Date().getTime();
       console.log(decoded.exp);
       console.log(currentTime);
-      if (decoded.exp * 1000 >= currentTime)
-      {
+      if (decoded.exp * 1000 >= currentTime) {
         this.isUserLogged = true;
+      }
+      else {
+        localStorage.removeItem("jwt");
+        this.isUserLogged = false;
       }
     }
     
@@ -47,7 +52,7 @@ export class CustomerComponent implements OnInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private spinnerService: NgxSpinnerService) {
+  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private spinnerService: NgxSpinnerService, private jwtAuthorizatonService: JwtAuthorizatonService) {
     this.customerForm = formBuilder.group({
       name: new FormControl(''),
       email: new FormControl(''),
@@ -66,7 +71,7 @@ export class CustomerComponent implements OnInit {
     this.spinnerService.show();
     let formData = this.customerFormLogin.getRawValue() as Login;
     console.log("User mode is " + JSON.stringify(formData));
-    this.customerService.login(formData).subscribe(res => {
+    this.jwtAuthorizatonService.login(formData).subscribe(res => {
       console.log("Inserted customer " + JSON.stringify(res) + " in database.");
       if (res.token != null && res.token.length > 0) {
         this.isUserLogged = true;

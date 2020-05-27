@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Token, Purchase } from '../purchase/purchase.model';
+import { Login } from './login.model';
 
 
 @Injectable()
@@ -14,15 +15,11 @@ export class JwtAuthorizatonService {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
-  public get(): Observable<Token> {
-    // Get all jogging data
-    console.log("auth get");
-    return this.http.get<Token>(this.accessPointUrl, { headers: this.headers });
-  }
+  public login(obj: Login): Observable<Login> {
+    let token = localStorage.getItem("jwt");
+    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
+    this.headers = headers_object;
 
-
-  public buildjwt(obj: Token): Observable<Token> {
-    console.log('Build JWT');
-    return this.http.post<Token>(this.accessPointUrl + '/buildjwt', obj, { headers: this.headers });
-  }
+    return this.http.post<Login>(this.accessPointUrl + '/login', obj, { headers: this.headers })
+  };
 }

@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { PurchaseService } from './purchase.service';
-import { JwtAuthorizatonService} from '../jwtauthorization/jwtauthorization.service';
+import { JwtAuthorizatonService } from '../jwtauthorization/jwtauthorization.service';
 import { Purchase, Token } from './purchase.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 //import 'rxjs/add/operator/debounceTime';
 //import 'rxjs/add/operator/map';
 
@@ -15,12 +17,29 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class PurchaseComponent implements OnInit {
   purchaseForm: FormGroup;
   purchases: Array<Purchase>;
+  isUserLogged: boolean;
 
   ngOnInit() {
-    
+    var token = localStorage.getItem("jwt");
+    if (token != null && token.length > 0) {
+      var decoded = jwt_decode(token);
+      var currentTime = new Date().getTime();
+      console.log(decoded.exp);
+      console.log(currentTime);
+      if (decoded.exp * 1000 >= currentTime) {
+        this.isUserLogged = true;
+      }
+      else {
+        localStorage.removeItem("jwt");
+        this.isUserLogged = false;
+        this.router.navigate(['/customer']);
+      }
+    }
+
+
   }
 
-  constructor(private formBuilder: FormBuilder, private purchaseService: PurchaseService, private jwtAuth: JwtAuthorizatonService, private spinnerService: NgxSpinnerService) {
+  constructor(private formBuilder: FormBuilder, private purchaseService: PurchaseService, private jwtAuth: JwtAuthorizatonService, private spinnerService: NgxSpinnerService, private router: Router) {
     this.purchaseForm = formBuilder.group({
       id: new FormControl(''),
       email: new FormControl(''),
@@ -32,20 +51,18 @@ export class PurchaseComponent implements OnInit {
       .valueChanges
       //.debounceTime(600)
       .subscribe(val => {
-      var obj = new Token;
-      obj.email = val;
-      obj.jwtToken = "";
-      console.log("Token is " + JSON.stringify(obj));
-      this.jwtAuth.buildjwt(obj).subscribe(res => {
-        console.log('service returns ' + res);
-        this.purchaseForm.controls['token'].setValue(res.jwtToken);
+        var obj = new Token;
+        obj.email = val;
+        obj.jwtToken = "";
+        console.log("Token is " + JSON.stringify(obj));
+
+        this.purchaseForm.controls['id'].setValue(val);
       });
-      //console.log('value changes');
-      this.purchaseForm.controls['id'].setValue(val);
-      });
-        
-      this.getAllPurchases();      
+    if (this.isUserLogged == true) {
+      this.getAllPurchases();
+    }
     
+
   }
 
   Delete(id) {
@@ -65,20 +82,16 @@ export class PurchaseComponent implements OnInit {
     let token = new Token;
     token.email = "";
     token.jwtToken = this.purchaseForm.controls['token'].value;
-    this.jwtAuth.buildjwt(token).subscribe(res => {
-      if (res.email == this.purchaseForm.controls['email'].value) {
-        let purchase = new Purchase;
-        purchase.email = this.purchaseForm.controls['email'].value;
-        purchase.productName = this.purchaseForm.controls['productName'].value;
-        purchase.id = null;
-        console.log("purchase object is " + JSON.stringify(purchase));
-        this.purchaseService.post(purchase).subscribe(res => {
-          console.log("sent a request to add purchase");
-          this.getAllPurchases();
-        });
-      }
-        
+    let purchase = new Purchase;
+    purchase.email = this.purchaseForm.controls['email'].value;
+    purchase.productName = this.purchaseForm.controls['productName'].value;
+    purchase.id = null;
+    this.purchaseService.post(purchase).subscribe(res => {
+      this.getAllPurchases();
     });
+
+
+
 
     //let formData = this.purchaseForm.getRawValue() as Purchase;
     //this.purchaseService.post(formData).subscribe(res => {

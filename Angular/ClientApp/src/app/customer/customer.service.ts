@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, Login } from './customer.model';
+import { Customer } from './customer.model';
 import { NgForm } from '@angular/forms';
 
 
@@ -30,12 +30,4 @@ export class CustomerService {
 
     return this.http.post<Customer>(this.accessPointUrl, obj, { headers: this.headers });
   }
-
-  public login(obj: Login): Observable<Login> {
-    let token = localStorage.getItem("jwt");
-    var headers_object = new HttpHeaders().set("Authorization", "Bearer " + token);
-    this.headers = headers_object;
-
-    return this.http.post<Login>(this.accessPointUrl + '/login', obj, { headers: this.headers })      
-  };
 }

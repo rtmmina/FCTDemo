@@ -4,6 +4,8 @@ import { Product } from './product.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSort, MatTableModule, MatTableDataSource, MatTable } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 
 const ELEMENT_DATA: Product[] = [
   { id: 1, name: 'Hydrogen', description: 'H', price: 1.0079},
@@ -40,14 +42,35 @@ export class ProductComponent implements OnInit {
   description: FormControl;
   price: FormControl;
 
+  isUserLogged: boolean;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
   ngOnInit() {
+    var token = localStorage.getItem("jwt");
+    if (token != null && token.length > 0) {
+      var decoded = jwt_decode(token);
+      var currentTime = new Date().getTime();
+      console.log(decoded.exp);
+      console.log(currentTime);
+      if (decoded.exp * 1000 >= currentTime) {
+        this.isUserLogged = true;
+      }
+      else {
+        localStorage.removeItem("jwt");
+        this.isUserLogged = false;
+        this.router.navigate(['/customer']);
+      }
+    }
+
     this.name = new FormControl('', Validators.required);
     this.description = new FormControl('');
     this.price = new FormControl('', Validators.min(0.01));
-    this.getAllProducts();
+    if (this.isUserLogged == true) {
+      this.getAllProducts();
+    }
+    
     //console.log("And here is " + JSON.stringify(this.products));
     //this.dataSource = new MatTableDataSource(this.products);
 
@@ -61,7 +84,7 @@ export class ProductComponent implements OnInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductService, private spinnerService: NgxSpinnerService) {
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private spinnerService: NgxSpinnerService, private router: Router) {
   }
 
   save() {

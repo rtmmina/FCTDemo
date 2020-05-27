@@ -34,6 +34,7 @@
     <None Remove="ClientApp\src\app\customer\customer.model.ts" />
     <None Remove="ClientApp\src\app\customer\customer.service.ts" />
     <None Remove="ClientApp\src\app\jwtauthorization\jwtauthorization.service.ts" />
+    <None Remove="ClientApp\src\app\jwtauthorization\login.model.ts" />
     <None Remove="ClientApp\src\app\product\product.component.ts" />
     <None Remove="ClientApp\src\app\product\product.model.ts" />
     <None Remove="ClientApp\src\app\product\product.service.ts" />
@@ -51,6 +52,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\customer\customer.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\customer\customer.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\jwtauthorization\jwtauthorization.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\jwtauthorization\login.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\product\product.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\product\product.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\product\product.service.ts" />

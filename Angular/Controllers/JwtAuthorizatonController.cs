@@ -8,6 +8,10 @@ using Common.DTO;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Angular.Contracts;
+using System.Text;
 
 namespace Angular.Controllers
 {
@@ -15,102 +19,54 @@ namespace Angular.Controllers
     [ApiController]
     public class JwtAuthorizatonController : ControllerBase
     {
-        private const string Secret = "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
+        private readonly ICustomerServiceWrapper customerServiceWrapper;
+        private IConfiguration _config;
 
-        // GET: api/JwtAuthorizaton
-        [HttpGet]
-        public Token Get()
+        public JwtAuthorizatonController(ICustomerServiceWrapper CustomerServiceWrapper, IConfiguration config)
         {
-            return new Token()
+            customerServiceWrapper = CustomerServiceWrapper;
+            _config = config;
+        }
+
+        [AllowAnonymous]
+        [Route("Login")]
+        public IActionResult Login([FromBody] Login login)
+        {        
+            var result = customerServiceWrapper.ValidateLogin(login);
+         
+            if (result == null)
             {
-                Email = "Email",
-                JwtToken = "Token"
-            };
-        }
+                return BadRequest("Invalid client request");
+            }
 
-        // GET: api/JwtAuthorizaton/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(string id)
-        {
-            return $"{id}New";
-        }
+            if (result.ID != null && result.ID > 1)
+            {
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-        // POST: api/JwtAuthorizaton
-        [HttpPost]
-        [Route("BuildJwt")]
-        public Token Post([FromBody] Token value)
-        {
-            if (value.JwtToken.Trim() == string.Empty)
-                value.JwtToken = GenerateToken(value.Email);
+                var tokeOptions = new JwtSecurityToken(
+                    issuer: "https://localhost:44330",
+                    audience: "https://localhost:44330",
+                    claims: new List<Claim>() {
+                        new Claim("EmailAddress", login.Email)
+                    },
+                    expires: DateTime.Now.AddMinutes(120),
+                    signingCredentials: signinCredentials
+                );
+
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                login.ID = result.ID;
+                login.Name = result.Name;
+                login.Email = login.Email;
+                login.Token = tokenString;
+                return Ok(login);
+            }
             else
-                value.Email = ReadEmailValue(value.JwtToken);
-            return value;
-        }
-
-        private string ReadEmailValue(string token)
-        {
-            try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-
-                if (jwtToken == null)
-                    return null;
-
-                
-                return jwtToken.Claims.ToList()[0].Value;
-            }
-            catch (Exception)
-            {
-                //should write log
-                return null;
+                return Ok(login);
             }
         }
 
-        // PUT: api/JwtAuthorizaton/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
-        [HttpPost]
-        public PurchaseDetails Post([FromBody] PurchaseDetails value)
-        {
-            return value;
-        }
-
-        public static string GenerateToken(string email, int expireMinutes = 20)
-        {
-            var symmetricKey = Convert.FromBase64String(Secret);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var now = DateTime.UtcNow;
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, email)
-                }),
-
-                Expires = now.AddMinutes(Convert.ToInt32(expireMinutes)),
-
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(symmetricKey),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var stoken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(stoken);
-
-            return token;
-        }
     }
 }
 

@@ -5,10 +5,3 @@ export class Customer {
   password: string;  
 }
 
-export class Login {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  token: string;
-}
