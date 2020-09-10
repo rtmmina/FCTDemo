@@ -45,7 +45,17 @@ namespace Api
             services.AddScoped<IPurchaseDAL, PurchaseDAL>();
             //EF core
             services.AddDbContext<FCTContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Calculator Service API",
+                    Version = "v2",
+                    Description = "Demo service for a web service that add, sub, multiply and divide.",
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +69,9 @@ namespace Api
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v2/swagger.json", "Calculator Services"));
 
             app.UseHttpsRedirection();
 
@@ -83,6 +96,8 @@ namespace Api
             //    routes.MapRazorPages();
             //    routes.MapFallbackToPage("_Host");
             //});
+
+            
         }
     }
 }

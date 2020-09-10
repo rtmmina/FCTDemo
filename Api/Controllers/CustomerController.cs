@@ -57,6 +57,7 @@ namespace Api.Controllers
         }
 
         [Route("ValidateCustomer")]
+        [HttpPost]
         public IActionResult ValidateCustomer(Customer customer)
         {
             return Ok(_customerService.ValidateCustomer(customer));

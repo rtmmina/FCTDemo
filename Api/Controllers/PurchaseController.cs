@@ -50,6 +50,7 @@ namespace Api.Controllers
         // DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
         [Route("DeletePurchase")]
+        [HttpPost]
         public IActionResult DeletePurchase(PurchaseDetails obj)
         {
             return Ok(_purchaseService.Delete(obj.ID ?? 0));
